@@ -20,31 +20,20 @@ function isNumeric(str) {
   return /^\d+$/.test(str);
 }
 
-// Helper function to check if string contains any letters
-function hasLetters(str) {
-  return /[a-zA-Z]/.test(str);
-}
-
-// Helper function to check if string contains special characters
-function hasSpecialChars(str) {
-  return /[^a-zA-Z0-9]/.test(str);
-}
-
 // Main processing function for data array
 function processData(dataArray) {
   if (!Array.isArray(dataArray)) {
     throw new Error("Input must be an array");
   }
 
-  const even_numbers = [];
   const odd_numbers = [];
+  const even_numbers = [];
   const alphabets = [];
   const special_characters = [];
   let sum = 0;
-  let allLetters = [];
+  let allAlphabets = []; // Store all alphabetic characters for concatenation
 
   for (const item of dataArray) {
-    // Ensure item is string for consistent processing
     const itemStr = String(item);
 
     if (isNumeric(itemStr)) {
@@ -57,45 +46,47 @@ function processData(dataArray) {
       } else {
         odd_numbers.push(itemStr);
       }
-    } else if (hasLetters(itemStr)) {
+    } else if (/[a-zA-Z]/.test(itemStr)) {
       // Item contains letters - add to alphabets (convert to uppercase)
       alphabets.push(itemStr.toUpperCase());
 
-      // Extract all individual letters for concatenation
+      // Extract all individual letters for concatenation (preserve original case)
       for (const char of itemStr) {
         if (/[a-zA-Z]/.test(char)) {
-          allLetters.push(char);
+          allAlphabets.push(char);
         }
       }
-    }
-
-    // Check for special characters (separate check for all items)
-    for (const char of itemStr) {
-      if (/[^a-zA-Z0-9]/.test(char) && !special_characters.includes(char)) {
-        special_characters.push(char);
+    } else {
+      // Check for special characters
+      for (const char of itemStr) {
+        if (/[^a-zA-Z0-9]/.test(char) && !special_characters.includes(char)) {
+          special_characters.push(char);
+        }
       }
     }
   }
 
   // Generate reverse concatenation with alternating caps
   let concatString = "";
-  if (allLetters.length > 0) {
-    // Reverse the order of letters
-    const reversedLetters = allLetters.reverse();
+  if (allAlphabets.length > 0) {
+    // Reverse the order of alphabetic characters
+    const reversedAlphabets = allAlphabets.reverse();
 
-    // Apply alternating capitalization based on even/odd index
-    reversedLetters.forEach((letter, index) => {
+    // Apply alternating capitalization
+    reversedAlphabets.forEach((char, index) => {
       if (index % 2 === 0) {
         // Even index: uppercase
-        concatString += letter.toUpperCase();
+        concatString += char.toUpperCase();
       } else {
         // Odd index: lowercase
-        concatString += letter.toLowerCase();
+        concatString += char.toLowerCase();
       }
     });
   }
 
   return {
+    is_success: true,
+    ...USER_DETAILS,
     odd_numbers,
     even_numbers,
     alphabets,
@@ -128,14 +119,7 @@ app.post('/bfhl', (req, res) => {
     // Process the data
     const result = processData(data);
 
-    // Build response object
-    const response = {
-      is_success: true,
-      ...USER_DETAILS,
-      ...result
-    };
-
-    res.status(200).json(response);
+    res.status(200).json(result);
 
   } catch (error) {
     console.error('Error processing request:', error.message);

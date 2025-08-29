@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
+    "build": "node -c index.js && echo 'Build successful - Code validation passed'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

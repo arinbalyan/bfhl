@@ -1,6 +1,10 @@
 {
   "version": 2,
   "public": true,
+  "installCommand": "npm install",
+  "buildCommand": "npm run build-win",
+  "devCommand": "npm run dev",
+  "startCommand": "npm start",
   "headers": [
     {
       "source": "/(.*)",

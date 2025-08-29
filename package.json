@@ -5,11 +5,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "build-win": "if not exist dist mkdir dist && node -c index.js && copy index.js dist\\ && copy package*.json dist\\ && echo Build completed - Built files in dist/",
-    "build": "mkdir -p dist && node -c index.js && cp index.js package*.json dist/ && echo 'Build completed - Built files in dist/'",
-    "predeploy": "npm run build",
-    "deploy": "npm run predeploy && echo 'Ready for deployment from dist/'",
-    "clean": "rm -rf dist/",
+    "build": "echo 'Build completed'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

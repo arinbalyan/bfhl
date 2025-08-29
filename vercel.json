@@ -1,14 +1,6 @@
 {
   "version": 2,
-  "rewrite": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.js"
-    }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  },
+  "public": true,
   "headers": [
     {
       "source": "/(.*)",

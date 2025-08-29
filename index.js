@@ -57,28 +57,22 @@ function processData(dataArray) {
       } else {
         odd_numbers.push(itemStr);
       }
-    } else {
-      // Non-numeric item - check if it has letters
-      if (hasLetters(itemStr)) {
-        // Item contains letters - add to alphabets
-        alphabets.push(itemStr.toUpperCase());
+    } else if (hasLetters(itemStr)) {
+      // Item contains letters - add to alphabets (convert to uppercase)
+      alphabets.push(itemStr.toUpperCase());
 
-        // Extract letters for concatenation
-        for (const char of itemStr) {
-          if (hasLetters(char)) {
-            allLetters.push(char);
-          }
+      // Extract all individual letters for concatenation
+      for (const char of itemStr) {
+        if (/[a-zA-Z]/.test(char)) {
+          allLetters.push(char);
         }
       }
+    }
 
-      // Check for special characters in the item
-      if (hasSpecialChars(itemStr)) {
-        // Item contains special characters
-        for (const char of itemStr) {
-          if (hasSpecialChars(char) && !special_characters.includes(char)) {
-            special_characters.push(char);
-          }
-        }
+    // Check for special characters (separate check for all items)
+    for (const char of itemStr) {
+      if (/[^a-zA-Z0-9]/.test(char) && !special_characters.includes(char)) {
+        special_characters.push(char);
       }
     }
   }

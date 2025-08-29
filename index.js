@@ -96,8 +96,8 @@ function processData(dataArray) {
   }
 
   return {
-    even_numbers,
     odd_numbers,
+    even_numbers,
     alphabets,
     special_characters,
     sum: sum.toString(),
